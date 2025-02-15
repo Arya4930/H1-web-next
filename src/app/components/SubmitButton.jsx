@@ -1,24 +1,44 @@
+"use client";
+
 import { Button } from "@material-tailwind/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-function SubmitButton() {
+function SubmitButton({ startDate, endDate }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const handleClick = async () => {
+        if (!startDate || !endDate) {
+            setError("Please select a start and end date.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
         try {
+            // Step 1: Set Folder
+            const setFolderRes = await fetch("http://127.0.0.1:5000/set-folder", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ folder: `${startDate}_${endDate}` }),
+            });
+
+            if (!setFolderRes.ok) {
+                throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
+            }
+
+            // Step 2: Run Analysis
             const res = await fetch("http://127.0.0.1:5000/run-analysis");
-            if (!res.ok) throw new Error(`Error: ${res.status}`);
+            if (!res.ok) {
+                throw new Error(`Error running analysis: ${res.statusText}`);
+            }
 
             const jsonData = await res.json();
-            console.log(jsonData);
 
-            // ✅ Save data to localStorage
+            // ✅ Save response to localStorage
             localStorage.setItem("deforestationData", JSON.stringify(jsonData));
 
             // ✅ Redirect to output page
