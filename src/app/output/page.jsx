@@ -33,29 +33,35 @@ export default function Output() {
     <main className="bg-background min-h-screen flex flex-col items-center">
       {/* Navbar */}
       <div className="navbar w-full bg-foreground p-4 text-textPrimary text-center text-2xl">
-        🌲 Deforestify - Analysis Results
+        <i className="fa fa-tree"></i> Deforestify
       </div>
 
       {/* Main Content */}
-      <section className="flex-grow flex justify-center items-center max-w-6xl">
-        <div className="bg-foreground p-8 rounded-xl shadow-lg shadow-black/50 text-center w-full max-w-6xl">
-          <h2 className="text-black text-2xl font-bold mb-4">Deforestation Analysis</h2>
+      <section className="flex-grow flex justify-center items-center max-w-8xl">
+        <div className="bg-foreground p-14 rounded-xl shadow-lg shadow-black/50 text-center w-full max-w-8xl min-h-[600px]">
+          <h2 className="text-textPrimary text-3xl mb-6">Deforestation Analysis</h2>
 
-          <div className="p-4 bg-gray-100 rounded text-black text-left">
-            <p><strong>Deforestation Percentage:</strong> {data.data.deforestation_percentage}%</p>
-            <p><strong>Status:</strong> {data.data.status}</p>
+          <div className="p-6 bg-gray-100 text-black rounded text-lg text-center text-left">
+            <p>
+              <strong>Deforestation Percentage:</strong> {data.data.deforestation_percentage}%
+            </p>
+            <p>
+              <strong>Status:</strong> {data.data.status}
+            </p>
           </div>
 
           {/* Show Images */}
           {data.images && (
-            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-8">
               {Object.entries(data.images).map(([key, src], index) => (
                 <div key={index} className="group relative">
-                  <h3 className="text-sm font-bold text-gray-700">{key.replace("_", " ").toUpperCase()}</h3>
+                  <h3 className="font-bold text-sm text-gray-700">
+                    {key.replace("_", " ").toUpperCase()}
+                  </h3>
                   <img
                     src={src}
                     alt={`${key} Analysis`}
-                    className="w-full h-40 object-cover rounded-lg shadow hover:scale-105 transition-transform duration-300 cursor-pointer"
+                    className="w-80 h-80 shadow rounded-lg object-cover shadow cursor-pointer transition-transform duration-500 ease-in-out hover:scale-105"
                   />
                 </div>
               ))}
@@ -65,10 +71,18 @@ export default function Output() {
       </section>
 
       {/* Footer */}
-      <div className="footer bg-gray-900 w-full text-white text-center p-4">
-        <a href="#" className="mx-2">Privacy Policy</a> |
-        <a href="#" className="mx-2">Terms of Service</a> |
-        <a href="#" className="mx-2">Contact Us</a>
+      <div className="footer bg-foreground w-full text-textPrimary text-center p-4">
+        <a href="#" className="mx-2">
+          Privacy Policy
+        </a>{" "}
+        |
+        <a href="#" className="mx-2">
+          Terms of Service
+        </a>{" "}
+        |
+        <a href="#" className="mx-2">
+          Contact Us
+        </a>
       </div>
     </main>
   );
