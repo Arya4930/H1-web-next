@@ -10,6 +10,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent: "var(--accent)",
+        textPrimary: "var(--text-primary)",
+        textSecondary: "var(--text-secondary)",
+        buttonHover: "var(--button-hover)",
       },
     },
   },
