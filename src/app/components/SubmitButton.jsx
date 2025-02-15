@@ -1,7 +1,6 @@
-"use client";
-
 import { Button } from "@material-tailwind/react";
 import { useState } from "react";
+
 
 function SubmitButton() {
     const [loading, setLoading] = useState(false);
@@ -32,6 +31,7 @@ function SubmitButton() {
     return (
         <div className="text-center">
             <Button
+
                 className="text-lg px-8 py-3 bg-blue-500 text-white border-none rounded-lg hover:bg-blue-600"
                 onClick={handleClick}
                 disabled={loading}
