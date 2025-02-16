@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Output() {
   const router = useRouter();
   const [data, setData] = useState(null);
   const [isClient, setIsClient] = useState(false);
+  const [fullscreenImage, setFullscreenImage] = useState(null);
 
   // Load data on initial render
   useEffect(() => {
@@ -61,7 +63,8 @@ export default function Output() {
                   <img
                     src={src}
                     alt={`${key} Analysis`}
-                    className="w-80 h-80 shadow rounded-lg object-cover shadow cursor-pointer transition-transform duration-500 ease-in-out hover:scale-105"
+                    className="w-80 h-80 shadow rounded-lg object-cover cursor-pointer transition-transform duration-500 ease-in-out hover:scale-105"
+                    onClick={() => setFullscreenImage(src)} // ✅ Set fullscreen image
                   />
                 </div>
               ))}
@@ -70,19 +73,47 @@ export default function Output() {
         </div>
       </section>
 
+      {/* ✅ Fullscreen Image Modal With Animation */}
+      <AnimatePresence>
+        {fullscreenImage && (
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-lg"
+            onClick={() => setFullscreenImage(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="relative flex items-center justify-center"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              onClick={(e) => e.stopPropagation()} // ✅ Prevent accidental closing
+            >
+              <motion.img
+                src={fullscreenImage}
+                alt="Fullscreen"
+                className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl cursor-pointer"
+              />
+              <motion.button
+                className="absolute top-5 right-5 text-white text-3xl font-bold bg-black bg-opacity-50 rounded-full px-3 py-1"
+                onClick={() => setFullscreenImage(null)}
+                whileHover={{ scale: 1.2 }}
+              >
+                ✕
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+
       {/* Footer */}
       <div className="footer bg-foreground w-full text-textPrimary text-center p-4">
-        <a href="#" className="mx-2">
-          Privacy Policy
-        </a>{" "}
-        |
-        <a href="#" className="mx-2">
-          Terms of Service
-        </a>{" "}
-        |
-        <a href="#" className="mx-2">
-          Contact Us
-        </a>
+        <a href="#" className="mx-2">Privacy Policy</a> |
+        <a href="#" className="mx-2">Terms of Service</a> |
+        <a href="#" className="mx-2">Contact Us</a>
       </div>
     </main>
   );
